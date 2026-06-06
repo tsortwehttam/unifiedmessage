@@ -8,6 +8,8 @@ export type UnifiedAttachment = {
   mimeType: string | undefined
   sizeBytes: number | undefined
   url: string | undefined
+  disposition: string | undefined
+  contentId: string | undefined
 }
 
 export type UnifiedParty = {

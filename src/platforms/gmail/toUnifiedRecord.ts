@@ -76,6 +76,8 @@ export function toUnifiedRecord(msg: gmail_v1.Schema$Message, account: string): 
     mimeType: item.mimeType,
     sizeBytes: item.inlineData ? Buffer.from(item.inlineData, "base64").length : item.sizeBytes,
     url: undefined,
+    disposition: item.disposition,
+    contentId: item.contentId,
   }))
   let timestamp = msg.internalDate
     ? new Date(Number(msg.internalDate)).toISOString()

@@ -82,6 +82,8 @@ export function toUnifiedRecord(task: AsanaTask, account: string): UnifiedRecord
     mimeType: a.content_type,
     sizeBytes: a.size,
     url: a.download_url,
+    disposition: undefined,
+    contentId: undefined,
   }))
 
   let threadId = buildRecordId("asana", account, "task", "thread", task.parent?.gid ?? projectGids[0] ?? task.gid)

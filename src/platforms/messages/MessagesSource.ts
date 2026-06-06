@@ -155,6 +155,8 @@ function listAttachments(db: Database.Database, ids: number[], attachmentsRoot: 
       url: row.filename.startsWith("~/")
         ? path.resolve(attachmentsRoot, row.filename.replace(/^~\/Library\/Messages\/Attachments\//, ""))
         : row.filename,
+      disposition: undefined,
+      contentId: undefined,
     })
     out.set(row.messageId, list)
   }

@@ -66,6 +66,8 @@ export function toUnifiedRecord(
     mimeType: file.mimetype,
     sizeBytes: file.size,
     url: file.url_private_download || file.url_private || file.permalink,
+    disposition: undefined,
+    contentId: undefined,
   }))
 
   let to: UnifiedParty[] = [{ id: opts.channelId, address: opts.channelId, name: opts.channelName, role: "channel" }]

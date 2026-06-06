@@ -40,6 +40,8 @@ test("fetchAttachment reads local Messages attachments by id", async () => {
         mimeType: "text/plain",
         sizeBytes: 5,
         url: file,
+        disposition: undefined,
+        contentId: undefined,
       },
     ],
     amounts: [],

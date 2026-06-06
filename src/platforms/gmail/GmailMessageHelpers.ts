@@ -33,6 +33,25 @@ export type FoundAttachment = {
   sizeBytes: number | undefined
   attachmentId: string | undefined
   inlineData: string | undefined
+  disposition: string | undefined
+  contentId: string | undefined
+}
+
+function partHeader(part: gmail_v1.Schema$MessagePart, name: string): string | undefined {
+  for (let header of part.headers ?? []) {
+    if (header.name?.toLowerCase() === name && header.value != null) return header.value
+  }
+  return undefined
+}
+
+function dispositionType(value: string | undefined): string | undefined {
+  if (!value) return undefined
+  return value.split(";")[0]?.trim().toLowerCase() || undefined
+}
+
+function stripAngles(value: string | undefined): string | undefined {
+  if (!value) return undefined
+  return value.trim().replace(/^<|>$/g, "") || undefined
 }
 
 export function collectAttachments(
@@ -47,6 +66,8 @@ export function collectAttachments(
       sizeBytes: part.body?.size ?? undefined,
       attachmentId: part.body?.attachmentId ?? undefined,
       inlineData: part.body?.data ?? undefined,
+      disposition: dispositionType(partHeader(part, "content-disposition")),
+      contentId: stripAngles(partHeader(part, "content-id")),
     })
   }
   for (let child of part.parts ?? []) {
