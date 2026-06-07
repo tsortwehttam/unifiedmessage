@@ -38,6 +38,26 @@ test("gmail normalization extracts participants and bodies", () => {
   assert.equal(row.platformMetadata.platform, "gmail")
 })
 
+test("gmail normalization strips angle brackets from a bare From address", () => {
+  let row = toUnifiedRecord({
+    id: "m2",
+    threadId: "t2",
+    internalDate: String(Date.parse("2026-03-20T10:00:00Z")),
+    labelIds: ["INBOX"],
+    payload: {
+      headers: [
+        { name: "From", value: "<dustin@example.com>" },
+        { name: "Subject", value: "No display name" },
+      ],
+      mimeType: "text/plain",
+      body: { data: Buffer.from("hi", "utf8").toString("base64url") },
+    },
+  }, "default")
+
+  assert.equal(row.from?.address, "dustin@example.com")
+  assert.equal(row.from?.name, undefined)
+})
+
 test("stripQuotedReply removes Gmail reply quote", () => {
   let body = [
     "Thanks, that makes sense.",

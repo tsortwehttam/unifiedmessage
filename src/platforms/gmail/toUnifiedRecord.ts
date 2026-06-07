@@ -55,7 +55,9 @@ function parseParty(raw: string): UnifiedParty {
       role: undefined,
     }
   }
-  return { id: undefined, address: raw.trim(), name: undefined, role: undefined }
+  // Bare "<addr>" with no display name: strip the angle brackets so the address
+  // is clean (Gmail emits this when the From header has no display name).
+  return { id: undefined, address: raw.trim().replace(/^<|>$/g, ""), name: undefined, role: undefined }
 }
 
 function parseParties(raw: string | undefined): UnifiedParty[] {
